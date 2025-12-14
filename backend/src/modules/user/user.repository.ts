@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 import { ProvidersName, Repositories } from 'src/common/enum/providers.enum';
-import { User } from 'src/entity/user.entity';
+import { User } from 'src/modules/user/entity/user.entity';
 import { DataSource } from 'typeorm';
 
 export const userRepositories: Provider[] = [

@@ -6,10 +6,11 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ErrorResponse } from './dto/error.response';
 
 @Catch(HttpException)
-export class HttpFilter implements ExceptionFilter {
-  private readonly logger = new Logger(HttpFilter.name);
+export class HttpExceptionFilter implements ExceptionFilter {
+  private readonly logger = new Logger(HttpExceptionFilter.name);
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -64,6 +65,6 @@ export class HttpFilter implements ExceptionFilter {
       error,
       timestamp: new Date().toISOString(),
       path: request?.url,
-    });
+    } as ErrorResponse);
   }
 }

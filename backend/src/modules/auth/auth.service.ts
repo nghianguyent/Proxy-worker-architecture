@@ -10,7 +10,7 @@ import { generateKey } from 'crypto';
 import { Response } from 'express';
 import { uuidv7 } from 'uuidv7';
 import { Repositories } from 'src/common/enum/providers.enum';
-import { User } from 'src/entity/user.entity';
+import { User } from 'src/modules/user/entity/user.entity';
 import { CreateUserDTO, LoginDTO } from 'src/modules/user/dto/user.dto';
 import { TTokenPayload } from 'src/types/token-payload';
 import { Repository } from 'typeorm';

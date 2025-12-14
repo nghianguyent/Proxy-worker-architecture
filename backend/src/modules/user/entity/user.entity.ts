@@ -18,6 +18,7 @@ export class User {
   @Column({
     type: 'varchar',
     length: 255,
+    unique: true,
   })
   email: string;
 
@@ -26,4 +27,10 @@ export class User {
     length: 255,
   })
   password: string;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  age: number;
 }

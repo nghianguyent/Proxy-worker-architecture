@@ -6,7 +6,7 @@ import { TTokenPayload } from 'src/types/token-payload';
 import { Inject, Injectable } from '@nestjs/common';
 import { Repositories } from 'src/common/enum/providers.enum';
 import { Repository } from 'typeorm';
-import { User } from 'src/entity/user.entity';
+import { User } from 'src/modules/user/entity/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

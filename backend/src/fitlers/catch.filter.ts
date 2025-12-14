@@ -7,6 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ErrorResponse } from './dto/error.response';
 
 @Catch()
 export class CatchFilter implements ExceptionFilter {
@@ -65,6 +66,6 @@ export class CatchFilter implements ExceptionFilter {
       message: errorMessage,
       timestamp: new Date().toISOString(),
       path: request?.url,
-    });
+    } as ErrorResponse);
   }
 }

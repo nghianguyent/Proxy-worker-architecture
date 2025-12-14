@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
-import { HttpFilter } from './fitlers/http.filter';
+import { HttpExceptionFilter } from './fitlers/http-exception.filter';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { CatchFilter } from './fitlers/catch.filter';
+import { TypeORMExceptionFilter } from './fitlers/typeorm-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +13,7 @@ async function bootstrap() {
 
   app.use(cookieParser(configService.get('COOKIE_SECRET')));
   app.setGlobalPrefix('api');
-  app.useGlobalFilters(new HttpFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(), new TypeORMExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
 
   const port = configService.get<number>('PORT') ?? 3000;
