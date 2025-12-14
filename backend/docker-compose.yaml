@@ -1,0 +1,24 @@
+
+services: 
+  proxy-database:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: proxy-app
+    ports:
+      - 5432:5432
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+  proxy-database-18:
+    image: postgres:18.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: proxy-app-2
+    ports:
+      - 5433:5432
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
