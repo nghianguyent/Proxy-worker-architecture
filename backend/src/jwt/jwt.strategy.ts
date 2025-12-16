@@ -6,7 +6,7 @@ import { TTokenPayload } from 'src/types/token-payload';
 import { Inject, Injectable } from '@nestjs/common';
 import { Repositories } from 'src/common/enum/providers.enum';
 import { Repository } from 'typeorm';
-import { User } from 'src/modules/user/entity/user.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -34,7 +34,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         email: payload.email,
       },
     });
-    return true;
+
+    if (user) {
+      return true;
+    }
+
+    return false;
     // const { id, email } = payload;
     // const user = await this.userService.findOne(id);
     // if (!user) {

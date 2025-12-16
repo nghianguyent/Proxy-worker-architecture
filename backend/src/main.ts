@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import { HttpExceptionFilter } from './fitlers/http-exception.filter';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CatchFilter } from './fitlers/catch.filter';
 import { TypeORMExceptionFilter } from './fitlers/typeorm-exception.filter';
 
 async function bootstrap() {

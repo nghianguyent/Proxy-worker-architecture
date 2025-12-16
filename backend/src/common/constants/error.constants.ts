@@ -17,9 +17,9 @@ export const PostgresErrorMap: Record<string, number> = {
 };
 
 export const PostgresErrorMessages: Record<string, string> = {
-  '23505': 'Unique violation {}',
+  '23505': 'Unique violation {table}',
   '23503': 'FK violation (e.g. invalid user_id)',
-  '23502': 'Not null violation {entity}',
+  '23502': 'Not null violation {table}',
   '23514': 'Check violation (e.g. age < 0)',
   '22P02': 'Invalid syntax (e.g. UUID format wrong)',
   '22001': 'Value too long for column',

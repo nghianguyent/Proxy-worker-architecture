@@ -14,7 +14,10 @@ import {
 } from 'typeorm';
 import { ErrorResponse } from './dto/error.response';
 import { DriverError } from 'src/common/types/error.type';
-import { PostgresErrorMap } from 'src/common/constants/error.constants';
+import {
+  PostgresErrorMap,
+  PostgresErrorMessages,
+} from 'src/common/constants/error.constants';
 import { ETypeormError } from 'src/common/enum/error.enum';
 
 @Catch(TypeORMError)
@@ -29,7 +32,7 @@ export class TypeORMExceptionFilter implements ExceptionFilter {
     driverError: DriverError;
   }): string {
     Object.entries(driverError).forEach(([key, value]) => {
-      messageTemplate = messageTemplate.replace(`$${key}`, String(value));
+      messageTemplate = messageTemplate.replace(`{${key}}`, String(value));
     });
 
     return messageTemplate;
@@ -43,7 +46,7 @@ export class TypeORMExceptionFilter implements ExceptionFilter {
     const status = PostgresErrorMap[code] || HttpStatus.INTERNAL_SERVER_ERROR;
 
     const message = this.handleMessageMap({
-      messageTemplate: driverError.message,
+      messageTemplate: PostgresErrorMessages[code],
       driverError,
     });
     return {
@@ -104,7 +107,7 @@ export class TypeORMExceptionFilter implements ExceptionFilter {
     this.logger.error(exception as QueryFailedError);
 
     response.status(errorResponse.statusCode).json({
-      errorResponse,
+      ...errorResponse,
       path: request?.url,
     });
   }

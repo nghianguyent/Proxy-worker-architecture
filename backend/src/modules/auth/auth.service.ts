@@ -6,14 +6,12 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { generateKey } from 'crypto';
 import { Response } from 'express';
-import { uuidv7 } from 'uuidv7';
 import { Repositories } from 'src/common/enum/providers.enum';
-import { User } from 'src/modules/user/entity/user.entity';
-import { CreateUserDTO, LoginDTO } from 'src/modules/user/dto/user.dto';
 import { TTokenPayload } from 'src/types/token-payload';
 import { Repository } from 'typeorm';
+import { User } from '../user/entities/user.entity';
+import { CreateUserDto, LoginDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,12 +38,12 @@ export class AuthService {
     return token;
   }
 
-  async register(userData: CreateUserDTO) {
+  async register(userData: CreateUserDto) {
     const user = this.userRepository.create(userData);
     return await this.userRepository.save(user);
   }
 
-  async login(data: LoginDTO, res: Response) {
+  async login(data: LoginDto, res: Response) {
     const user = await this.userRepository.findOne({
       where: {
         email: data.email,
@@ -65,10 +63,8 @@ export class AuthService {
       secure: true,
       sameSite: 'strict',
       signed: true,
-      encode(val) {
-        return val;
-      },
     });
+
     return res.json({
       accessToken: token,
     });

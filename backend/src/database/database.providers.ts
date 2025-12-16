@@ -15,6 +15,9 @@ export const databaseProviders: Provider[] = [
         database: 'proxy-app',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
+        extra: {
+          connectionLimit: 2,
+        },
       });
 
       return dataSource.initialize();
