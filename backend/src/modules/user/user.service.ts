@@ -16,7 +16,7 @@ export class UserService {
     return 'This action adds a new user';
   }
 
-  async findMe(cookies: Record<string, string>) {
+  async findMe(id: string) {
     return await this.userRepository.findOneBy({ id });
   }
 

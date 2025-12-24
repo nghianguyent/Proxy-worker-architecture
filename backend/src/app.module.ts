@@ -9,13 +9,19 @@ import { JwtAuthGuard } from './common/guards/auth/jwt-auth.guard';
 import { UserModule } from './modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { uuidv7 } from 'uuidv7';
+import { RequestInterceptor } from './inteceptor/request.interceptor';
 
 const customProviders = [
   {
     provide: ProvidersName.APP_GUARD,
     useClass: JwtAuthGuard,
   },
+  {
+    provide: ProvidersName.APP_INTERCEPTOR,
+    useClass: RequestInterceptor,
+  },
 ];
+
 @Module({
   imports: [
     AuthModule,

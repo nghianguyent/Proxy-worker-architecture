@@ -1,15 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  UseGuards,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from 'src/common/guards/auth/jwt-auth.guard';
+import type { Request } from 'express';
+import type { TUser } from './entities/user.entity';
+import { User } from 'src/common/decorators/user.decorator';
 
 @Controller('user')
 export class UserController {
@@ -26,16 +21,17 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.userService.findOne(id);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  findMe(@Req() req: Request) {
-    return this.userService.findMe(req.headers.getSetCookie('access_token')[0]);
+  findMe(@User() user: TUser) {
+    // return this.userService.findMe(user.id);
+    return user;
   }
 
   // @Patch(':id')

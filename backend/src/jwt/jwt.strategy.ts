@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { TTokenPayload } from 'src/types/token-payload';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Repositories } from 'src/common/enum/providers.enum';
 import { Repository } from 'typeorm';
 import { User } from 'src/modules/user/entities/user.entity';
@@ -18,7 +18,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super({
       jwtFromRequest: (request: Request) => {
-        console.log('jwtFromRequest', request.cookies);
         return (request.signedCookies as Record<string, string>)[
           'access_token'
         ];
@@ -29,17 +28,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
   // ... validate logic
   async validate(req: Request, payload: TTokenPayload) {
+    // TODO: handle token invalidation
     const user = await this.userRepository.findOne({
       where: {
         email: payload.email,
       },
     });
 
-    if (user) {
-      return true;
+    if (!user) {
+      throw new UnauthorizedException('Invalid token');
     }
 
-    return false;
+    return user;
     // const { id, email } = payload;
     // const user = await this.userService.findOne(id);
     // if (!user) {

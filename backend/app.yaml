@@ -1,0 +1,23 @@
+runtime: nodejs24
+service: proxy-app-backend  
+
+instance_class: F1
+
+vpc_access_connector:
+  name: "projects/impactful-arbor-479913-d8/locations/us-east1/connectors/test-app"
+  egress_setting: private-ranges-only
+build_env_variables:
+  GOOGLE_NODE_RUN_SCRIPTS: 'build'
+
+env_variables:
+  NODE_ENV: production
+
+entrypoint: 'npm run start:prod'
+
+inbound_services:
+  - warmup
+
+automatic_scaling:
+  target_cpu_utilization: 0.8
+  min_instances: 1
+  max_instances: 10

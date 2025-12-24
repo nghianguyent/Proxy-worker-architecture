@@ -32,7 +32,7 @@ export class TypeORMExceptionFilter implements ExceptionFilter {
     driverError: DriverError;
   }): string {
     Object.entries(driverError).forEach(([key, value]) => {
-      messageTemplate = messageTemplate.replace(`{${key}}`, String(value));
+      messageTemplate = messageTemplate?.replace(`{${key}}`, String(value));
     });
 
     return messageTemplate;

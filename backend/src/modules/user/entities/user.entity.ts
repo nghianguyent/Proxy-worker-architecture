@@ -34,3 +34,5 @@ export class User {
   })
   age: number;
 }
+
+export type TUser = InstanceType<typeof User>;

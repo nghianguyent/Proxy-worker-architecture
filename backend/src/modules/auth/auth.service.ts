@@ -1,12 +1,7 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Repositories } from 'src/common/enum/providers.enum';
 import { TTokenPayload } from 'src/types/token-payload';
 import { Repository } from 'typeorm';
@@ -68,5 +63,11 @@ export class AuthService {
     return res.json({
       accessToken: token,
     });
+  }
+
+  logout(req: Request, res: Response) {
+    const token = this.getTokenFromCookies(req.cookies);
+
+    return res.json({ message: 'Logged out successfully' });
   }
 }
